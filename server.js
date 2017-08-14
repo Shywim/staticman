@@ -71,11 +71,35 @@ StaticmanAPI.prototype.initialiseRoutes = function () {
     this.controllers.process
   )
 
+  this.server.get(
+    '/v:version/connect/:site/:username/:repository',
+    this.bruteforce.prevent,
+    this.requireApiVersion([3]),
+    this.controllers.connect
+  )
+
+  // Route: process
+  this.server.post(
+    '/v:version/entry/:site/:username/:repository/:branch',
+    this.bruteforce.prevent,
+    this.requireApiVersion([3]),
+    this.requireParams(['fields']),
+    this.controllers.process
+  )
+
+  this.server.post(
+    '/v:version/entry/:site/:username/:repository/:branch/:property',
+    this.bruteforce.prevent,
+    this.requireApiVersion([3]),
+    this.requireParams(['fields']),
+    this.controllers.process
+  )
+
   // Route: encrypt
   this.server.get(
     '/v:version/encrypt/:text',
     this.bruteforce.prevent,
-    this.requireApiVersion([2]),
+    this.requireApiVersion([2, 3]),
     this.controllers.encrypt
   )
 
